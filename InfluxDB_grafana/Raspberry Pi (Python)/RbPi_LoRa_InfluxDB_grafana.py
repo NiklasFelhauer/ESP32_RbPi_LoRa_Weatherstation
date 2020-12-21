@@ -55,8 +55,8 @@ def influxDBWrite(val_temp, val_hum, val_press):
         {
         "measurement": "Sensor_data",
         "tags": {
-            #"Temperature": machine,
-            #"Humidity": statorType
+            #"Tag1": val_Tag1, #use tags to sort the fields in the database
+            #"Tag2": val_Tag2
         },
         "time": timestamp,
         "fields": {
