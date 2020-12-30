@@ -96,8 +96,11 @@ void loop() {
   //create LoRa Packet and send it, don't forget to close it again
   LoRa.beginPacket();
     LoRa.print(temperature);
+    LoRa.print(";");
     LoRa.print(pressure); 
+    LoRa.print(";");
     LoRa.print(humidity);
+    LoRa.print(";");
     LoRa.flush();
   LoRa.endPacket();
 
