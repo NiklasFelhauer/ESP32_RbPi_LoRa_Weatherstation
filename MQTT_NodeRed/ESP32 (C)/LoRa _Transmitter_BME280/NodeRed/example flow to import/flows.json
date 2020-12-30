@@ -1,0 +1,750 @@
+[
+    {
+        "id": "ccd89f38.3c44d",
+        "type": "tab",
+        "label": "import data MQTT",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "11a1f7d.3a91f08",
+        "type": "debug",
+        "z": "ccd89f38.3c44d",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 690,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "eb7d3539.c8ec88",
+        "type": "mqtt in",
+        "z": "ccd89f38.3c44d",
+        "name": "MQTT Input",
+        "topic": "/esp32/weather",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "56958147.03dd8",
+        "x": 210,
+        "y": 320,
+        "wires": [
+            [
+                "6afeba8.282bd44",
+                "706d2d13.305624",
+                "5083876f.9d2c28"
+            ]
+        ],
+        "info": "Hallo"
+    },
+    {
+        "id": "5083876f.9d2c28",
+        "type": "function",
+        "z": "ccd89f38.3c44d",
+        "name": "slice pressure",
+        "func": "if(msg.topic === \"/esp32/weather\"){\n\nmsg.payload.toString();\nmsg.payload = parseFloat(msg.payload.slice(5,11));\n\n    return msg;}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 440,
+        "y": 340,
+        "wires": [
+            [
+                "57482b50.267634",
+                "e3b40db4.7ba7d",
+                "34ce9329.84322c",
+                "3bfa6b26.ea9bb4"
+            ]
+        ]
+    },
+    {
+        "id": "6afeba8.282bd44",
+        "type": "function",
+        "z": "ccd89f38.3c44d",
+        "name": "slice humidity str",
+        "func": "if(msg.topic === \"/esp32/weather\"){\n\nmsg.payload.toString();\nmsg.payload = parseFloat(msg.payload.slice(11,19));\n\n    return msg;}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 420,
+        "y": 600,
+        "wires": [
+            [
+                "7782cebe.dfc1b",
+                "1677e104.87432f",
+                "9106eade.f0aba8",
+                "5300bf8d.75a7"
+            ]
+        ]
+    },
+    {
+        "id": "57482b50.267634",
+        "type": "debug",
+        "z": "ccd89f38.3c44d",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 670,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "7782cebe.dfc1b",
+        "type": "debug",
+        "z": "ccd89f38.3c44d",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 650,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "440e54f1.18a5ec",
+        "type": "ui_chart",
+        "z": "ccd89f38.3c44d",
+        "name": "temperature",
+        "group": "e941ba6a.82efd8",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm",
+        "interpolate": "monotone",
+        "nodata": "",
+        "dot": false,
+        "ymin": "-15",
+        "ymax": "45",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#000000",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "x": 890,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "362f79e7.0ed866",
+        "type": "ui_chart",
+        "z": "ccd89f38.3c44d",
+        "name": "pressure",
+        "group": "79542ef8.cc697",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "2000",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "x": 840,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "60436025.64a4f",
+        "type": "ui_chart",
+        "z": "ccd89f38.3c44d",
+        "name": "humidity",
+        "group": "3080292f.6dd2f6",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "80",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "x": 780,
+        "y": 640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "706d2d13.305624",
+        "type": "function",
+        "z": "ccd89f38.3c44d",
+        "name": "slice temperature",
+        "func": "if(msg.topic === \"/esp32/weather\"){\n\nmsg.payload.toString();\nmsg.payload = parseFloat(msg.payload.slice(0,5));\n\n    return msg;}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 450,
+        "y": 180,
+        "wires": [
+            [
+                "11a1f7d.3a91f08",
+                "c69e4acf.88f708",
+                "352b6479.0c6fdc",
+                "d4be111e.1dead",
+                "8cd146bd.21bf28"
+            ]
+        ]
+    },
+    {
+        "id": "9106eade.f0aba8",
+        "type": "smooth",
+        "z": "ccd89f38.3c44d",
+        "name": "",
+        "property": "payload",
+        "action": "mean",
+        "count": "10",
+        "round": "1",
+        "mult": "single",
+        "reduce": false,
+        "x": 620,
+        "y": 640,
+        "wires": [
+            [
+                "60436025.64a4f"
+            ]
+        ]
+    },
+    {
+        "id": "1677e104.87432f",
+        "type": "function",
+        "z": "ccd89f38.3c44d",
+        "name": "+%",
+        "func": "msg.payload = msg.payload + \" %\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 610,
+        "y": 680,
+        "wires": [
+            [
+                "cb79f44c.d9d608"
+            ]
+        ]
+    },
+    {
+        "id": "cb79f44c.d9d608",
+        "type": "ui_text",
+        "z": "ccd89f38.3c44d",
+        "group": "3080292f.6dd2f6",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "humidity_text",
+        "label": "Current Humidity",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 790,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "97a23955.fed888",
+        "type": "ui_text",
+        "z": "ccd89f38.3c44d",
+        "group": "79542ef8.cc697",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "pressure_text",
+        "label": "Current Pressure:",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 860,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "e3b40db4.7ba7d",
+        "type": "function",
+        "z": "ccd89f38.3c44d",
+        "name": "+hPa",
+        "func": "msg.payload = msg.payload + \" hPa\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 650,
+        "y": 420,
+        "wires": [
+            [
+                "97a23955.fed888"
+            ]
+        ]
+    },
+    {
+        "id": "158a430c.d6122d",
+        "type": "ui_text",
+        "z": "ccd89f38.3c44d",
+        "group": "e941ba6a.82efd8",
+        "order": 2,
+        "width": 10,
+        "height": 1,
+        "name": "temperature_text",
+        "label": "Current Temperature:",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 910,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "c69e4acf.88f708",
+        "type": "function",
+        "z": "ccd89f38.3c44d",
+        "name": "+°C",
+        "func": "msg.payload = msg.payload+ \" °C\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 670,
+        "y": 200,
+        "wires": [
+            [
+                "158a430c.d6122d"
+            ]
+        ]
+    },
+    {
+        "id": "34ce9329.84322c",
+        "type": "smooth",
+        "z": "ccd89f38.3c44d",
+        "name": "",
+        "property": "payload",
+        "action": "mean",
+        "count": "10",
+        "round": "1",
+        "mult": "single",
+        "reduce": false,
+        "x": 660,
+        "y": 380,
+        "wires": [
+            [
+                "362f79e7.0ed866"
+            ]
+        ]
+    },
+    {
+        "id": "352b6479.0c6fdc",
+        "type": "smooth",
+        "z": "ccd89f38.3c44d",
+        "name": "",
+        "property": "payload",
+        "action": "mean",
+        "count": "10",
+        "round": "1",
+        "mult": "single",
+        "reduce": false,
+        "x": 680,
+        "y": 160,
+        "wires": [
+            [
+                "440e54f1.18a5ec"
+            ]
+        ]
+    },
+    {
+        "id": "8cd146bd.21bf28",
+        "type": "ui_artlessgauge",
+        "z": "ccd89f38.3c44d",
+        "group": "70fb931.dfc146c",
+        "order": 13,
+        "width": 5,
+        "height": 5,
+        "name": "",
+        "icon": "fa-thermometer-empty",
+        "label": "Temperature",
+        "unit": "°C",
+        "layout": "radial",
+        "decimals": "2",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#000000",
+        "style": "",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "secondary",
+        "inline": false,
+        "sectors": [
+            {
+                "val": -15,
+                "col": "#007bff",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 0,
+                "col": "#00f5d8",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 10,
+                "col": "#37ff00",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 20,
+                "col": "#009e1a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 30,
+                "col": "#ffb514",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 40,
+                "col": "#ff0000",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 50,
+                "col": "#ff0000",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": false,
+        "diffCenter": "15",
+        "x": 700,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "3bfa6b26.ea9bb4",
+        "type": "ui_artlessgauge",
+        "z": "ccd89f38.3c44d",
+        "group": "70fb931.dfc146c",
+        "order": 15,
+        "width": 5,
+        "height": 5,
+        "name": "",
+        "icon": "fa-compress",
+        "label": "Pressure",
+        "unit": "hPa",
+        "layout": "radial",
+        "decimals": "2",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#000000",
+        "style": "",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "secondary",
+        "inline": false,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#ff0000",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 500,
+                "col": "#009e1a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 1000,
+                "col": "#ffb514",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 1500,
+                "col": "#ff0000",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 2000,
+                "col": "#ff0000",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": false,
+        "diffCenter": "15",
+        "x": 680,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "5300bf8d.75a7",
+        "type": "ui_artlessgauge",
+        "z": "ccd89f38.3c44d",
+        "group": "70fb931.dfc146c",
+        "order": 17,
+        "width": 5,
+        "height": 5,
+        "name": "",
+        "icon": "fa-tint",
+        "label": "Humidity",
+        "unit": "%",
+        "layout": "radial",
+        "decimals": "2",
+        "differential": false,
+        "minmax": true,
+        "colorTrack": "#000000",
+        "style": "",
+        "colorFromTheme": true,
+        "property": "payload",
+        "secondary": "",
+        "inline": false,
+        "sectors": [
+            {
+                "val": 0,
+                "col": "#f50000",
+                "t": "min",
+                "dot": 0
+            },
+            {
+                "val": 20,
+                "col": "#ffc800",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 40,
+                "col": "#009e1a",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 60,
+                "col": "#ffb514",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 80,
+                "col": "#ff0000",
+                "t": "sec",
+                "dot": 0
+            },
+            {
+                "val": 100,
+                "col": "#ff0000",
+                "t": "max",
+                "dot": 0
+            }
+        ],
+        "lineWidth": "7",
+        "bgcolorFromTheme": false,
+        "diffCenter": "15",
+        "x": 660,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "d4be111e.1dead",
+        "type": "ui_template",
+        "z": "ccd89f38.3c44d",
+        "group": "70fb931.dfc146c",
+        "name": "",
+        "order": 6,
+        "width": 4,
+        "height": 1,
+        "format": "<span flex style=\"display:table;vertical-align: middle;color: white;text-align: left;font-size: 230%\">{{msg.payload}}°C</span>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 680,
+        "y": 20,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a1cb0fb7.71d06",
+        "type": "ui_template",
+        "z": "ccd89f38.3c44d",
+        "group": "8942cc40.8a7cd",
+        "name": "",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "format": "<style>\n    .nr-dashboard-template.nr-dashboard-ui_artlessgauge.visible > * .small{\n        font-size:1.2em;\n    }\n    .nr-dashboard-template.nr-dashboard-ui_artlessgauge.visible > * .medium{\n        font-size:1.2em;\n        color:red;\n    }\n    .nr-dashboard-template.nr-dashboard-ui_artlessgauge.visible > * .big{\n        font-size:3em;\n    }\n</style>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "global",
+        "x": 200,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "56958147.03dd8",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": false,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "e941ba6a.82efd8",
+        "type": "ui_group",
+        "name": "Temperature",
+        "tab": "668d91e6.a41ed",
+        "order": 1,
+        "disp": true,
+        "width": "10",
+        "collapse": false
+    },
+    {
+        "id": "79542ef8.cc697",
+        "type": "ui_group",
+        "name": "Pressure",
+        "tab": "668d91e6.a41ed",
+        "order": 3,
+        "disp": true,
+        "width": "10",
+        "collapse": false
+    },
+    {
+        "id": "3080292f.6dd2f6",
+        "type": "ui_group",
+        "name": "Humidity",
+        "tab": "668d91e6.a41ed",
+        "order": 2,
+        "disp": true,
+        "width": "10",
+        "collapse": false
+    },
+    {
+        "id": "70fb931.dfc146c",
+        "type": "ui_group",
+        "name": "MainGroup",
+        "tab": "4bb34f67.69a87",
+        "order": 1,
+        "disp": false,
+        "width": 21,
+        "collapse": false
+    },
+    {
+        "id": "8942cc40.8a7cd",
+        "type": "ui_group",
+        "name": "BME280",
+        "tab": "",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "668d91e6.a41ed",
+        "type": "ui_tab",
+        "name": "Diagramme",
+        "icon": "show_chart",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "4bb34f67.69a87",
+        "type": "ui_tab",
+        "name": "Weather",
+        "icon": "fa-thermometer-half",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]
