@@ -7,7 +7,7 @@
 #GitHub: https://github.com/NiklasFelhauer
 #organization: NF-codes
 #date: 12/21/2020
-#version 0.0
+#version 0.1
 #notes:
 #python_version:3.7.3
 #===============================================================================
@@ -84,14 +84,20 @@ if __name__ == "__main__":
         payload = lora.read_payload(nocheck=True)
         sys.stdout.flush()
         payload_data = bytes(payload).decode("utf-8", 'ignore')          
-        if len(payload_data) == 16 and previous_payload_data != payload_data: #check if it's the right data format
-            temp = float(payload_data[:5])
-            pressure = float(payload_data[5:11])
-            humidity = float(payload_data[11:])
-            influxDBWrite(temp, humidity, pressure)
-            previous_payload_data = payload_data
-        else:
-            pass  
+        try:
+            if previous_payload_data != payload_data: #makes sure that every meassurement is registered once
+                temp = float(payload_data.strip().split(";")[0])
+                pressure = float(payload_data.strip().split(";")[1])
+                humidity = float(payload_data.strip().strip(";")[2])
+                print(temp)
+
+                influxDBWrite(temp, humidity, pressure) 
+
+                previous_payload_data = payload_data
+            else:
+                pass
+        except:
+            logging.warning("Couldn't convert data to float")
 
     sys.stdout.flush()
 #=== END MAIN FUNCTION ========================================================= 
