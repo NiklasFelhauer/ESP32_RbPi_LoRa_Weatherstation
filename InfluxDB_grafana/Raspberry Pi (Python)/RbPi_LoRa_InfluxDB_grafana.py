@@ -7,7 +7,7 @@
 #GitHub: https://github.com/NiklasFelhauer
 #organization: NF-codes
 #date: 12/21/2020
-#version 0.1
+#version 0.2
 #notes:
 #python_version:3.7.3
 #===============================================================================
@@ -80,6 +80,9 @@ if __name__ == "__main__":
     lora.reset_ptr_rx()
     lora.set_mode(MODE.RXCONT) 
     previous_payload_data = 0
+    previous_temp = 0
+    previous_humidity = 0
+    previous_pressure = 0
     while True:
         payload = lora.read_payload(nocheck=True)
         sys.stdout.flush()
@@ -90,10 +93,19 @@ if __name__ == "__main__":
                 pressure = float(payload_data.strip().split(";")[1])
                 humidity = float(payload_data.strip().strip(";")[2])
                 print(temp)
+                
+                if temp > previous_temp + 3 and temp < previous_temp -3: #avoid unrealistic temp peaks
+                    temp = previous_temp
+                    humidity = previous_humidity
+                    pressure = previous_pressure
+                    influxDBWrite(temp, humidity, pressure) 
+                else:
+                    logging.warning("measurement fail")
 
-                influxDBWrite(temp, humidity, pressure) 
-
-                previous_payload_data = payload_data
+                previous_temp = temp
+                previous_humidity = humidity
+                previous_pressure = pressure
+                previous_payload_data = previous_payload_data               
             else:
                 pass
         except:
