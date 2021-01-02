@@ -7,7 +7,7 @@
 #GitHub: https://github.com/NiklasFelhauer
 #organization: NF-codes
 #date: 12/21/2020
-#version 0.2
+#version 0.0
 #notes:
 #python_version:3.7.3
 #===============================================================================
@@ -55,8 +55,8 @@ def influxDBWrite(val_temp, val_hum, val_press):
         {
         "measurement": "Sensor_data",
         "tags": {
-            #"Tag1": val_Tag1, #use tags to sort the fields in the database
-            #"Tag2": val_Tag2
+            #"Temperature": machine,
+            #"Humidity": statorType
         },
         "time": timestamp,
         "fields": {
@@ -71,7 +71,9 @@ def influxDBWrite(val_temp, val_hum, val_press):
         logging.debug("Writing to influxDB successfull!")
     except:
         logging.error("Failure when writing to influxDB!")
- 
+
+    
+
 clientDB = influxDBConnect() # call function to connect to influxDB
 
 #=== MAIN FUNCTION =============================================================
@@ -80,36 +82,42 @@ if __name__ == "__main__":
     lora.reset_ptr_rx()
     lora.set_mode(MODE.RXCONT) 
     previous_payload_data = 0
-    previous_temp = 0
-    previous_humidity = 0
-    previous_pressure = 0
+    switch = True
     while True:
         payload = lora.read_payload(nocheck=True)
         sys.stdout.flush()
-        payload_data = bytes(payload).decode("utf-8", 'ignore')          
+        payload_data = bytes(payload).decode("utf-8", 'ignore')
         try:
-            if previous_payload_data != payload_data: #makes sure that every meassurement is registered once
+            if previous_payload_data != payload_data: #check if it's the right data format
                 temp = float(payload_data.strip().split(";")[0])
                 pressure = float(payload_data.strip().split(";")[1])
-                humidity = float(payload_data.strip().strip(";")[2])
-                print(temp)
-                
-                if temp > previous_temp + 3 and temp < previous_temp - 3: #avoid unrealistic temp peaks
+                humidity = float(payload_data.strip().split(";")[2])
+
+                if switch:
+                    previous_temp = temp
+                    previous_humidity = humidity
+                    previous_pressure = pressure
+                    switch = False
+                else:
+                    pass
+
+                if temp > previous_temp + 3 or temp < previous_temp - 3:
                     temp = previous_temp
                     humidity = previous_humidity
                     pressure = previous_pressure
+                    logging.info("measurment fail, sending previous values")
                 else:
-                    logging.warning("measurement fail")
+                    pass
 
                 previous_temp = temp
                 previous_humidity = humidity
                 previous_pressure = pressure
-                previous_payload_data = previous_payload_data  
-                influxDBWrite(temp, humidity, pressure)              
+                previous_payload_data = payload_data
+                influxDBWrite(temp, humidity, pressure)
             else:
-                pass
+                pass  
         except:
-            logging.info("Couldn't convert data to float")
+            logging.warning("Couldn't convert data to float")
 
     sys.stdout.flush()
 #=== END MAIN FUNCTION ========================================================= 
