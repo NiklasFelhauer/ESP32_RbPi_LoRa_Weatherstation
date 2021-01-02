@@ -49,18 +49,18 @@ def influxDBConnect():
  
 # Function to write to influxDB
 def influxDBWrite(val_temp, val_hum, val_press):
-    timestamp = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+    timestamp = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ') #time format
  
     jason_body = [
         {
-        "measurement": "Sensor_data",
+        "measurement": "Sensor_data", 
         "tags": {
-            #"Temperature": machine,
-            #"Humidity": statorType
+            #"Temperature": , Don't need tags in this example
+            #"Humidity": 
         },
         "time": timestamp,
         "fields": {
-            "Temperature": val_temp,
+            "Temperature": val_temp, #define InfluxDB fields
             "Humidity": val_hum,
             "Pressure": val_press
         }
@@ -84,16 +84,16 @@ if __name__ == "__main__":
     previous_payload_data = 0
     switch = True
     while True:
-        payload = lora.read_payload(nocheck=True)
+        payload = lora.read_payload(nocheck=True) #receive LoRa packet and decode it
         sys.stdout.flush()
         payload_data = bytes(payload).decode("utf-8", 'ignore')
         try:
             if previous_payload_data != payload_data: #check if it's the right data format
-                temp = float(payload_data.strip().split(";")[0])
+                temp = float(payload_data.strip().split(";")[0]) 
                 pressure = float(payload_data.strip().split(";")[1])
                 humidity = float(payload_data.strip().split(";")[2])
 
-                if switch:
+                if switch: #get first value (for unrealistic measurement filter -> if-loop below)
                     previous_temp = temp
                     previous_humidity = humidity
                     previous_pressure = pressure
@@ -101,7 +101,7 @@ if __name__ == "__main__":
                 else:
                     pass
 
-                if temp > previous_temp + 3 or temp < previous_temp - 3:
+                if temp > previous_temp + 3 or temp < previous_temp - 3: #filter unrealistic measurment fails. e.g: 4000°C/F and replace them with previous measurement
                     temp = previous_temp
                     humidity = previous_humidity
                     pressure = previous_pressure
@@ -113,7 +113,7 @@ if __name__ == "__main__":
                 previous_humidity = humidity
                 previous_pressure = pressure
                 previous_payload_data = payload_data
-                influxDBWrite(temp, humidity, pressure)
+                influxDBWrite(temp, humidity, pressure) #upload values to Influx database
             else:
                 pass  
         except:
