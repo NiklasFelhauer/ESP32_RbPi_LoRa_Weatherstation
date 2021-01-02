@@ -21,7 +21,7 @@ import pytz
 import logging
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s', datefmt='%Y-%m-%dT%H:%M:%SZ',
-filename='Logfile_Weather_station.log', filemode='w', level=logging.INFO) # set logging level to Warning
+filename='Logfile_Weather_station.log', filemode='w', level=logging.Warning) # set logging level to Warning
 
 BOARD.setup()
 
