@@ -94,22 +94,22 @@ if __name__ == "__main__":
                 humidity = float(payload_data.strip().strip(";")[2])
                 print(temp)
                 
-                if temp > previous_temp + 3 and temp < previous_temp -3: #avoid unrealistic temp peaks
+                if temp > previous_temp + 3 and temp < previous_temp - 3: #avoid unrealistic temp peaks
                     temp = previous_temp
                     humidity = previous_humidity
                     pressure = previous_pressure
-                    influxDBWrite(temp, humidity, pressure) 
                 else:
                     logging.warning("measurement fail")
 
                 previous_temp = temp
                 previous_humidity = humidity
                 previous_pressure = pressure
-                previous_payload_data = previous_payload_data               
+                previous_payload_data = previous_payload_data  
+                influxDBWrite(temp, humidity, pressure)              
             else:
                 pass
         except:
-            logging.warning("Couldn't convert data to float")
+            logging.info("Couldn't convert data to float")
 
     sys.stdout.flush()
 #=== END MAIN FUNCTION ========================================================= 
