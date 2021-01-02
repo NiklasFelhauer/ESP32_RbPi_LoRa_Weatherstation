@@ -7,7 +7,7 @@
 #GitHub: https://github.com/NiklasFelhauer
 #organization: NF-codes
 #date: 12/21/2020
-#version 0.0
+#version 0.3
 #notes:
 #python_version:3.7.3
 #===============================================================================
