@@ -6,8 +6,8 @@
 #author: Niklas Felhauer
 #GitHub: https://github.com/NiklasFelhauer
 #organization: NF-codes
-#date: 12/21/2020
-#version 0.3
+#date: 01/04/2020
+#version 1.0
 #notes:
 #python_version:3.7.3
 #===============================================================================
@@ -72,7 +72,24 @@ def influxDBWrite(val_temp, val_hum, val_press):
     except:
         logging.error("Failure when writing to influxDB!")
 
-    
+def failFilter(f_temp, f_humidity, f_pressure): #filters unrealistic measurements and replaces them with presvious value(e.g. 3000°C)
+    if f_temp > previous_temp + 3 or f_temp < previous_temp - 3:
+        f_temp = previous_temp
+        f_humidity = previous_humidity
+        f_pressure = previous_pressure
+    else:
+        pass
+    return f_temp, f_humidity, f_pressure 
+
+def firstValue():
+    global switch, previous_temp, previous_humidity, previous_pressure
+    if switch:
+        previous_temp = temp
+        previous_humidity = humidity
+        previous_pressure = pressure
+        switch = False
+    else:
+        pass
 
 clientDB = influxDBConnect() # call function to connect to influxDB
 
@@ -93,27 +110,16 @@ if __name__ == "__main__":
                 pressure = float(payload_data.strip().split(";")[1])
                 humidity = float(payload_data.strip().split(";")[2])
 
-                if switch: #get first value (for unrealistic measurement filter -> if-loop below)
-                    previous_temp = temp
-                    previous_humidity = humidity
-                    previous_pressure = pressure
-                    switch = False
-                else:
-                    pass
+                
+                firstValue() #get first value (for failFilter function -> next function below below)
 
-                if temp > previous_temp + 3 or temp < previous_temp - 3: #filter unrealistic measurment fails. e.g: 4000°C/F and replace them with previous measurement
-                    temp = previous_temp
-                    humidity = previous_humidity
-                    pressure = previous_pressure
-                    logging.info("measurment fail, sending previous values")
-                else:
-                    pass
+                new_temp, new_humidity, new_pressure = failFilter(temp, humidity, pressure)
 
-                previous_temp = temp
-                previous_humidity = humidity
-                previous_pressure = pressure
+                previous_temp = new_temp
+                previous_humidity = new_humidity
+                previous_pressure = new_pressure
                 previous_payload_data = payload_data
-                influxDBWrite(temp, humidity, pressure) #upload values to Influx database
+                influxDBWrite(new_temp, new_humidity, new_pressure) #upload values to Influx database
             else:
                 pass  
         except:
