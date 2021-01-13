@@ -1440,7 +1440,7 @@
         "method": "GET",
         "ret": "obj",
         "paytoqs": "query",
-        "url": "https://api.openweathermap.org/data/2.5/onecall?lat=48.435574&lon=8.002941&units=metric&appid=53cf4b84cd8cf0edb957df171a9927eb",
+        "url": "YOUR OPEN WEATHER API",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -1514,21 +1514,21 @@
                 "t": "set",
                 "p": "payload.lat",
                 "pt": "msg",
-                "to": "40.30",
+                "to": "",
                 "tot": "str"
             },
             {
                 "t": "set",
                 "p": "payload.lon",
                 "pt": "msg",
-                "to": "-111.69",
+                "to": "",
                 "tot": "str"
             },
             {
                 "t": "set",
                 "p": "payload.appid",
                 "pt": "msg",
-                "to": "53cf4b84cd8cf0edb957df171a9927eb",
+                "to": "",
                 "tot": "str"
             },
             {
