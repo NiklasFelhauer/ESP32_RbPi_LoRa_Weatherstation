@@ -77,11 +77,11 @@ def failFilter(f_temp, f_humidity, f_pressure): #filters unrealistic measurement
         f_temp = previous_temp
     else:
         pass
-    if f_humidity > previous_humidity + 10 or f_humidity < previous_humidity - 10:
+    if f_humidity > previous_humidity + 2 or f_humidity < previous_humidity - 2:
         f_humidity = previous_humidity
     else:
         pass
-    if f_pressure > previous_pressure + 2 or f_pressure < previous_pressure -2:
+    if f_pressure > previous_pressure + 1 or f_pressure < previous_pressure -1:
         f_pressure = previous_pressure
     else:
         pass
