@@ -1514,21 +1514,21 @@
                 "t": "set",
                 "p": "payload.lat",
                 "pt": "msg",
-                "to": "",
+                "to": "your coordinates",
                 "tot": "str"
             },
             {
                 "t": "set",
                 "p": "payload.lon",
                 "pt": "msg",
-                "to": "",
+                "to": "your coordinates",
                 "tot": "str"
             },
             {
                 "t": "set",
                 "p": "payload.appid",
                 "pt": "msg",
-                "to": "",
+                "to": "ypur api key",
                 "tot": "str"
             },
             {
