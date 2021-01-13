@@ -75,7 +75,13 @@ def influxDBWrite(val_temp, val_hum, val_press):
 def failFilter(f_temp, f_humidity, f_pressure): #filters unrealistic measurements and replaces them with presvious value(e.g. 3000°C)
     if f_temp > previous_temp + 3 or f_temp < previous_temp - 3:
         f_temp = previous_temp
+    else:
+        pass
+    if f_humidity > previous_humidity + 10 or f_humidity < previous_humidity - 10:
         f_humidity = previous_humidity
+    else:
+        pass
+    if f_pressure > previous_pressure + 2 or f_pressure < previous_pressure -2:
         f_pressure = previous_pressure
     else:
         pass
