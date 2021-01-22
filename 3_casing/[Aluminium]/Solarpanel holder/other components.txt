@@ -9,3 +9,10 @@ x4: M4, 20mm
 Nuts:
 
 x5: M5
+
+------------------
+
+Aluminium Profiles used:
+
+x2: 20x10x140mm
+x1: 20x10x162mm
