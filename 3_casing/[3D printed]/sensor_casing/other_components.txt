@@ -1,0 +1,9 @@
+threaded rods:
+
+x3: M5, 140mm length
+
+
+
+Nuts:
+
+x3: M5
