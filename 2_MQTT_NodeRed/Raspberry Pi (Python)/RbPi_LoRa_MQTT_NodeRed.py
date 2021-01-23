@@ -25,7 +25,6 @@ logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s', datefmt='%Y
 filename='Logfile_Weather_station_NodeRed.log', filemode='w', level=logging.Warning) # set logging level to Warning
 
 MQTT_SERVER = "IP-Adresse" # put your RaspberryPi-IP in here. Command for terminal: hostname -I    //IP Adress will change Pi is connected to another WiFi
-MQTT_TOPIC = "/esp32/weather" # your MQTT topic
 
 BOARD.setup()
 
@@ -57,7 +56,9 @@ if __name__ == "__name__":
                 pressure = float(payload_data.strip().split(";")[1])
                 humidity = float(payload_data.strip().split(";")[2])
 
-                publish.single("/esp32/weather", payload_data, hostname=MQTT_SERVER) # Publish MQTT message
+                publish.single("/esp32/temp", temp, hostname=MQTT_SERVER) # Publish MQTT message
+                publish.single("/esp32/pressure", pressure, hostname=MQTT_SERVER)
+                publish.single("/esp32/humidity", humidity, hostname=MQTT_SERVER)
             else:
                 pass
             
