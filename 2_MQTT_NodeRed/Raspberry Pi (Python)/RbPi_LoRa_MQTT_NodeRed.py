@@ -49,7 +49,7 @@ if __name__ == "__name__":
     while True:
         payload = lora.read_payload(nocheck=True)
         sys.stdout.flush()
-        payload_data = bytes(paylaod).decode("utf-8", 'ignore')
+        payload_data = bytes(payload).decode("utf-8", 'ignore')
         try:
             if previous_payload_data != payload_data: #check if it's the right data format
                 temp = float(payload_data.strip().split(";")[0]) 
