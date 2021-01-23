@@ -22,7 +22,7 @@ import logging
 
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s', datefmt='%Y-%m-%dT%H:%M:%SZ',
-filename='Logfile_Weather_station_NodeRed.log', filemode='w', level=logging.Warning) # set logging level to Warning
+filename='Logfile_Weather_station_NodeRed.log', filemode='w', level=logging.warning) # set logging level to Warning
 
 MQTT_SERVER = "IP-Adresse" # put your RaspberryPi-IP in here. Command for terminal: hostname -I    //IP Adress will change Pi is connected to another WiFi
 
@@ -65,7 +65,7 @@ if __name__ == "__name__":
             previous_payload_data = payload_data
 
         except:
-            logging.Warning("Couldn't convert payload_data to float")
+            logging.warning("Couldn't convert payload_data to float")
 
     sys.stdout.flush()
 
