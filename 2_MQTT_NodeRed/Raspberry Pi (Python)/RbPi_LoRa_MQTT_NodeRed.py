@@ -22,10 +22,9 @@ import logging
 
 
 logging.basicConfig(format='%(asctime)s %(levelname)s: %(message)s', datefmt='%Y-%m-%dT%H:%M:%SZ',
-filename='Logfile_Weather_station_NodeRed.log', filemode='w', level=logging.Warning) # set logging level to Warning
+filename='Logfile_Weather_station_NodeRed.log', filemode='w', level=logging.warning) # set logging level to Warning
 
 MQTT_SERVER = "IP-Adresse" # put your RaspberryPi-IP in here. Command for terminal: hostname -I    //IP Adress will change Pi is connected to another WiFi
-MQTT_TOPIC = "/esp32/weather" # your MQTT topic
 
 BOARD.setup()
 
@@ -50,21 +49,23 @@ if __name__ == "__name__":
     while True:
         payload = lora.read_payload(nocheck=True)
         sys.stdout.flush()
-        payload_data = bytes(paylaod).decode("utf-8", 'ignore')
+        payload_data = bytes(payload).decode("utf-8", 'ignore')
         try:
             if previous_payload_data != payload_data: #check if it's the right data format
                 temp = float(payload_data.strip().split(";")[0]) 
                 pressure = float(payload_data.strip().split(";")[1])
                 humidity = float(payload_data.strip().split(";")[2])
 
-                publish.single("/esp32/weather", payload_data, hostname=MQTT_SERVER) # Publish MQTT message
+                publish.single("/esp32/temp", temp, hostname=MQTT_SERVER) # Publish MQTT message
+                publish.single("/esp32/pressure", pressure, hostname=MQTT_SERVER)
+                publish.single("/esp32/humidity", humidity, hostname=MQTT_SERVER)
             else:
                 pass
             
             previous_payload_data = payload_data
 
         except:
-            logging.Warning("Couldn't convert payload_data to float")
+            logging.warning("Couldn't convert payload_data to float")
 
     sys.stdout.flush()
 
